@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import './main.css'
-import sun from './sun.svg'
-import clear from './clear.svg'
-import cloudy from './cloudy.svg'
-import snow from './snow.svg'
-import rain from './rain.svg'
-
-import Header from './Header'
 import axios from "axios";
 
 const Main = () => {
@@ -18,8 +11,13 @@ const Main = () => {
     const [pressure, setpressure] = useState('')
     const [unix, setUnix] = useState('')
     const [description, setDescription] = useState('')
+    const [bg, setBg] = useState('btn-outline-light')
+    const [btn, setBtn] = useState('bg-light')
+    const [message, setMessage] = useState('Please search a city 👀')
 
-    const [icon, setIcon]=useState('02d')
+    const [icon, setIcon] = useState('02d')
+    const [text, setText] = useState('text-black')
+    const [light, setLight] = useState('main-container')
     // ------------------------------------------------------
     // const []
 
@@ -38,12 +36,40 @@ const Main = () => {
 
         setIcon(daily.data.weather[0].icon)
 
+        setMessage('')
+
     });
 
 
     return (<>
 
-            <div className='container  mb-3 mt-5 '>
+            <div className='container    mb-3 mt-5 '>
+                <div className='d-flex justify-content-between text-center m-5'>
+                    {/*--------------------------*/}
+                    <a onClick={()=>{
+                        setBtn('btn-outline-dark')
+                        setBg('bg-dark')
+                        setText('text-white')
+                        setLight('dark-container')
+                        document.body.style.backgroundColor = 'black'
+                    }} href="#">
+                        <i className="fas fs-3 fa-moon">
+                            Dark
+                        </i>
+                    </a>
+
+                    {/*--------------------------*/}
+                    <a onClick={()=>{
+                        setBtn('btn-outline-light')
+                        setBg('bg-light')
+                        setText('text-black')
+                        document.body.style.backgroundColor = 'white'
+                    }} href="#">
+                        <i className="fas  fs-3 fa-sun">
+                            light
+                        </i>
+                    </a>
+                </div>
                 <div className="mb-3">
                     <div className="container">
                         <div className="row">
@@ -51,9 +77,9 @@ const Main = () => {
 
                                 <input type="text"
                                        onChange={(event) => setSearch(event.target.value)}
-                                       className="form-control  btn-outline-info w-100  m-2text-dark"
+                                       className={`form-control  ${bg} ${btn} w-100  m-2text-dark`}
                                        id="city"
-                                       placeholder="Search..."/>
+                                       placeholder="Search City or Country"/>
                                 {/*<button className='btn m-2 btn-outline-info'*/}
                                 {/*        type={"submit"}>Search*/}
                                 {/*</button>*/}
@@ -63,12 +89,12 @@ const Main = () => {
                     </div>
                 </div>
             </div>
-            <div className="container main-container pb-5">
+            <div className={`container ${light} pb-5`}>
                 <div className='row'>
                     <div className="col-sm-12 ">
                         <div className="container d-flex justify-content-around">
                             <div className="container m-2">
-                                <h3>Current weather</h3>
+                                <h3 className='text-center'>{message.toUpperCase()}</h3>
                             </div>
 
                         </div>
@@ -80,34 +106,34 @@ const Main = () => {
                         <div className="container h-50 bg-transparent">
                             <ul className="list-group ">
                                 <li className="list-group-item  d-flex justify-content-start flex-column align-items-center bg-transparent">
-                                    <h4 style={{marginLeft: '15px'}}>
+                                    <h4 className={`${text}`} style={{marginLeft: '15px'}}>
                                         {search.toUpperCase()}
                                     </h4>
-                                    <h1 style={{marginLeft: '15px'}}>
+                                    <h1 className={`text-black ${text}`} style={{marginLeft: '15px'}}>
                                         {Math.ceil(temp)}°
                                     </h1>
                                     <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
-                                         className='m-auto w-100' alt=""/>
-                                    <h4 style={{marginLeft: '15px'}} className=''>{description}</h4>
+                                         className='m-auto w-50' alt=""/>
+                                    <h4 className={text} style={{marginLeft: '15px'}} className=''>{description}</h4>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div className="col-sm-8 d-flex justify-content-center align-items-center">
                         <table
-                            className='table table-light table-bordered w-75 text-uppercase table-hover m-4'>
+                            className='table  table-bordered w-75 text-uppercase table-hover m-4'>
                             <tbody>
                             <tr>
-                                <td className='fs-5'>Humidity</td>
-                                <td><b>{humidity}%</b></td>
+                                <td className='fs-5'><h3 className={`${text}`}>Humidity</h3></td>
+                                <td><h3 className={`${text}`}>{humidity}%</h3></td>
                             </tr>
                             <tr>
-                                <td>Wind</td>
-                                <td><b className='fs-5'>{wind}</b> - <b>kph</b></td>
+                                <td><h3 className={`${text}`}>Wind</h3></td>
+                                <td><h3 className={`${text}`}>{wind} - kph</h3></td>
                             </tr>
                             <tr>
-                                <td>Pressure</td>
-                                <td>{pressure} - hPa</td>
+                                <td><h3 className={`${text}`}>Pressure</h3></td>
+                                <td><h3 className={`${text}`}>{pressure} - hPa</h3></td>
                             </tr>
                             </tbody>
                         </table>
